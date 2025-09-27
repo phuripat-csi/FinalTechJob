@@ -1,8 +1,20 @@
 import React, { useState } from "react";
 import { FaWrench, FaUserShield, FaUserCog } from "react-icons/fa";
 
-export default function LoginPage() {
+export default function LoginPage({ onRegisterClick, onLogin }) {
   const [role, setRole] = useState("ช่าง");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  // เพิ่ม handle submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // ตรวจสอบอีเมล/รหัสผ่าน (mock)
+    if (role === "ผู้ดูแล" && email && password) {
+      onLogin({ role });
+    }
+    // เพิ่ม logic สำหรับ "ช่าง" ได้ตามต้องการ
+  };
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center">
@@ -73,18 +85,23 @@ export default function LoginPage() {
               </button>
             </div>
             {/* Form */}
-            <form>
+            {/* Form */}
+            <form onSubmit={handleSubmit}>
               <label className="block text-gray-300 mb-1">อีเมล</label>
               <input
                 type="email"
                 placeholder="กรอกอีเมลของคุณ"
                 className="w-full mb-4 px-4 py-2 rounded-lg bg-[#19182A] text-white border border-[#222] focus:outline-none focus:border-[#5F5AFF]"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
               />
               <label className="block text-gray-300 mb-1">รหัสผ่าน</label>
               <input
                 type="password"
                 placeholder="••••"
                 className="w-full mb-6 px-4 py-2 rounded-lg bg-[#19182A] text-white border border-[#222] focus:outline-none focus:border-[#5F5AFF]"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
               />
               <div className="flex gap-2">
                 <button
@@ -103,9 +120,13 @@ export default function LoginPage() {
             </form>
             <div className="text-center mt-6 text-gray-400 text-sm">
               ยังไม่มีบัญชี?{" "}
-              <a href="#" className="text-[#5F5AFF] hover:underline">
+              <button
+                className="text-[#5F5AFF] hover:underline"
+                onClick={onRegisterClick}
+                type="button"
+              >
                 สมัครสมาชิก
-              </a>
+              </button>
             </div>
           </div>
         </div>
